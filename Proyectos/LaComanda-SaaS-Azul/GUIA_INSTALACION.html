@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Instalación - La Comanda SaaS</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-block { font-family: monospace; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <div class="max-w-4xl mx-auto py-12 px-6">
+        <!-- Header -->
+        <header class="mb-12 text-center">
+            <div class="w-20 h-20 bg-blue-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-blue-600/20">
+                <span class="material-symbols-outlined text-4xl">restaurant_menu</span>
+            </div>
+            <h1 class="text-4xl font-bold tracking-tight text-slate-900 mb-4">Guía de Instalación Local</h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">Instrucciones paso a paso para configurar y ejecutar el proyecto <strong>La Comanda SaaS</strong> en máquinas Windows desde cero.</p>
+        </header>
+
+        <!-- Alert -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-xl mb-10 shadow-sm flex gap-4">
+            <span class="material-symbols-outlined text-amber-500 mt-0.5">info</span>
+            <div>
+                <h3 class="font-bold text-amber-900 mb-1">Antes de empezar</h3>
+                <p class="text-amber-800 text-sm leading-relaxed">Para ejecutar este proyecto <strong>no necesitas instalar Node.js, PHP ni MySQL directamente en tu computadora</strong>. Todo el proyecto (Frontend, Backend y Base de Datos) funciona de manera encapsulada usando <strong>Docker</strong>. Si sigues esta guía al pie de la letra, evitarás cualquier problema de "en mi máquina no funciona".</p>
+            </div>
+        </div>
+
+        <div class="space-y-12">
+
+            <!-- Fase 1 -->
+            <section class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10"></div>
+                <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                    Instalación de WSL2 (Requisito de Windows)
+                </h2>
+                <p class="mb-4 text-slate-600">Docker necesita WSL2 (Windows Subsystem for Linux) para funcionar de manera rápida y óptima en Windows.</p>
+                
+                <ol class="list-decimal list-outside ml-5 space-y-4 text-slate-700">
+                    <li class="pl-2">
+                        <strong>Abre PowerShell como Administrador:</strong> Presiona la tecla Windows, escribe "PowerShell", haz clic derecho y selecciona <em>"Ejecutar como administrador"</em>.
+                    </li>
+                    <li class="pl-2">
+                        <strong>Ejecuta el comando de instalación:</strong> Copia y pega el siguiente comando en la ventana azul y presiona Enter:
+                        <div class="bg-slate-900 text-green-400 p-4 rounded-lg mt-3 code-block shadow-inner flex justify-between items-center group">
+                            <code>wsl --install</code>
+                        </div>
+                    </li>
+                    <li class="pl-2">
+                        <strong>Reinicia tu computadora:</strong> Este paso es obligatorio. Una vez reinicies, es posible que aparezca una terminal negra configurando Ubuntu; puedes cerrarla cuando termine.
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Fase 2 -->
+            <section class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10"></div>
+                <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                    Instalar Docker Desktop
+                </h2>
+                <p class="mb-4 text-slate-600">Docker es el motor que ejecutará toda nuestra aplicación.</p>
+                
+                <ol class="list-decimal list-outside ml-5 space-y-4 text-slate-700">
+                    <li class="pl-2">
+                        Ve a la página oficial y descarga <a href="https://www.docker.com/products/docker-desktop/" target="_blank" class="text-blue-600 hover:underline font-medium">Docker Desktop para Windows</a>.
+                    </li>
+                    <li class="pl-2">
+                        Ejecuta el instalador. Asegúrate de que la casilla <strong>"Use WSL 2 instead of Hyper-V"</strong> (Usar WSL 2 en lugar de Hyper-V) esté <strong class="text-green-600">marcada</strong> durante la instalación.
+                    </li>
+                    <li class="pl-2">
+                        Abre la aplicación <strong>Docker Desktop</strong> desde tu menú inicio. Acepta los términos si te los pide. Sabrás que está listo cuando veas un ícono de una ballena verde (o la palabra "Engine Running") en la esquina inferior izquierda de la aplicación.
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Fase 3 -->
+            <section class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10"></div>
+                <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                    Descargar el Proyecto
+                </h2>
+                <p class="mb-4 text-slate-600">Necesitamos traer el código fuente a tu máquina. Si no tienes Git instalado, descárgalo <a href="https://git-scm.com/download/win" target="_blank" class="text-blue-600 hover:underline">aquí</a>.</p>
+                
+                <ol class="list-decimal list-outside ml-5 space-y-4 text-slate-700">
+                    <li class="pl-2">Abre una terminal (PowerShell o Git Bash) en la carpeta donde guardas tus proyectos (ej: Documentos).</li>
+                    <li class="pl-2">
+                        Clona el repositorio ejecutando:
+                        <div class="bg-slate-900 text-green-400 p-4 rounded-lg mt-3 code-block shadow-inner">
+                            <code>git clone [AQUI_LA_URL_DEL_REPOSITORIO]</code><br>
+                            <code class="text-blue-300">cd LaComanda-SaaS-Azul</code>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Fase 4 -->
+            <section class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10"></div>
+                <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">4</span>
+                    ¡Levantar el Proyecto! 🚀
+                </h2>
+                <p class="mb-4 text-slate-600">Con Docker abierto en segundo plano y tu terminal ubicada dentro de la carpeta del proyecto, ejecuta el comando mágico:</p>
+                
+                <div class="bg-slate-900 text-white p-5 rounded-xl mb-6 code-block shadow-xl">
+                    <span class="text-fuchsia-400">docker compose</span> <span class="text-yellow-300">up</span> <span class="text-slate-400">--build</span>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 mb-6">
+                    <h4 class="font-bold text-blue-900 mb-2">¿Qué está pasando?</h4>
+                    <p class="text-sm text-blue-800">La primera vez que ejecutes esto, Docker descargará Internet entero (es broma, pero descargará MySQL, Node.js y compilará el frontend y el backend). <strong>Puede tardar varios minutos</strong>. Sé paciente.</p>
+                </div>
+
+                <h3 class="font-bold text-slate-800 mb-4 border-b pb-2">Accesos del Proyecto:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href="http://localhost:5173" target="_blank" class="block p-4 rounded-xl border-2 border-slate-100 hover:border-blue-500 hover:shadow-md transition-all group">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="material-symbols-outlined text-blue-500">web</span>
+                            <h4 class="font-bold text-slate-800 group-hover:text-blue-600">Frontend (React)</h4>
+                        </div>
+                        <p class="text-sm text-slate-500 font-mono">http://localhost:5173</p>
+                    </a>
+                    
+                    <a href="http://localhost:3000" target="_blank" class="block p-4 rounded-xl border-2 border-slate-100 hover:border-green-500 hover:shadow-md transition-all group">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="material-symbols-outlined text-green-500">api</span>
+                            <h4 class="font-bold text-slate-800 group-hover:text-green-600">Backend API (Node)</h4>
+                        </div>
+                        <p class="text-sm text-slate-500 font-mono">http://localhost:3000</p>
+                    </a>
+
+                    <div class="block p-4 rounded-xl border-2 border-slate-100 sm:col-span-2">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="material-symbols-outlined text-orange-500">database</span>
+                            <h4 class="font-bold text-slate-800">Base de Datos (MySQL)</h4>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-sm">
+                            <div class="bg-slate-50 p-2 rounded"><span class="text-slate-500 text-xs block uppercase">Host/Port</span><span class="font-mono font-medium">localhost:3306</span></div>
+                            <div class="bg-slate-50 p-2 rounded"><span class="text-slate-500 text-xs block uppercase">User/Pass</span><span class="font-mono font-medium">root / rootpassword</span></div>
+                            <div class="bg-slate-50 p-2 rounded"><span class="text-slate-500 text-xs block uppercase">Database</span><span class="font-mono font-medium">la_comanda</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Troubleshooting -->
+            <section class="bg-slate-50 p-8 rounded-2xl border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined">help</span> Solución de Problemas Comunes
+                </h2>
+                <div class="space-y-4 text-sm text-slate-600">
+                    <details class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 cursor-pointer">
+                        <summary class="font-bold text-slate-800">Error: "Docker daemon is not running"</summary>
+                        <p class="mt-2 pl-4 border-l-2 border-blue-200">Asegúrate de haber abierto la aplicación "Docker Desktop" desde el menú de inicio de Windows y espera a que el ícono esté en verde antes de correr comandos.</p>
+                    </details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 cursor-pointer">
+                        <summary class="font-bold text-slate-800">Error: Puerto 3306 (o 3000/5173) está en uso</summary>
+                        <p class="mt-2 pl-4 border-l-2 border-blue-200">Significa que ya tienes XAMPP, Laragon u otro MySQL corriendo en tu PC. Debes apagar esos servicios locales para que Docker pueda usar esos puertos.</p>
+                    </details>
+                    <details class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 cursor-pointer">
+                        <summary class="font-bold text-slate-800">Quiero detener el proyecto, ¿qué hago?</summary>
+                        <p class="mt-2 pl-4 border-l-2 border-blue-200">En la terminal donde corriste el <code>docker compose</code>, simplemente presiona <kbd class="bg-slate-100 px-1 border rounded">Ctrl</kbd> + <kbd class="bg-slate-100 px-1 border rounded">C</kbd>. Para asegurarte de apagar todo correctamente, puedes correr <code>docker compose down</code>.</p>
+                    </details>
+                </div>
+            </section>
+        </div>
+
+        <footer class="mt-16 text-center text-slate-400 text-sm">
+            <p>Hecho para el equipo de desarrollo de La Comanda SaaS.</p>
+        </footer>
+    </div>
+</body>
+</html>
