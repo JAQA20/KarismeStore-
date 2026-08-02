@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@theme {
+  /* === Colors (Material Design 3 & Karisme Logo Rose Tokens) === */
+  --color-on-primary: #ffffff;
+  --color-surface-container-low: #fdf8f9;
+  --color-surface-bright: #fffbfc;
+  --color-on-secondary: #ffffff;
+  --color-on-tertiary-fixed: #1b1c17;
+  --color-surface-container-lowest: #ffffff;
+  --color-secondary: #c85a7c;
+  --color-brand-pink: #d46a8c;
+  --color-brand-rose: #f9ebf1;
+  --color-brand-blue: #2c6e91;
+  --color-on-error: #ffffff;
+  --color-surface-dim: #dcd9d9;
+  --color-on-error-container: #93000a;
+  --color-on-primary-fixed: #271816;
+  --color-primary: #6f5957;
+  --color-on-tertiary-container: #62625c;
+  --color-on-surface: #1c1b1b;
+  --color-surface: #fffbfc;
+  --color-primary-container: #f4d7d4;
+  --color-background: #fffbfc;
+  --color-surface-tint: #c85a7c;
+  --color-secondary-fixed-dim: #e8b3c5;
+  --color-on-primary-container: #725c5a;
+  --color-surface-variant: #f4eaee;
+  --color-tertiary-fixed-dim: #c8c7bf;
+  --color-on-surface-variant: #4f4443;
+  --color-surface-container-highest: #f0e2e7;
+  --color-on-primary-fixed-variant: #564240;
+  --color-outline: #817473;
+  --color-tertiary: #5f5f59;
+  --color-outline-variant: #e8d0d8;
+  --color-inverse-on-surface: #f3f0ef;
+  --color-tertiary-fixed: #e4e3db;
+  --color-primary-fixed: #f9dcd9;
+  --color-secondary-fixed: #fce4ed;
+  --color-tertiary-container: #dfded6;
+  --color-on-secondary-container: #6a1a34;
+  --color-secondary-container: #fae4eb;
+  --color-error-container: #ffdad6;
+  --color-on-secondary-fixed-variant: #802342;
+  --color-error: #ba1a1a;
+  --color-inverse-surface: #313030;
+  --color-surface-container-high: #f6e8ed;
+  --color-on-tertiary-fixed-variant: #474742;
+  --color-surface-container: #f8eeF2;
+  --color-on-secondary-fixed: #41071c;
+  --color-primary-fixed-dim: #dcc0bd;
+  --color-on-tertiary: #ffffff;
+  --color-on-background: #1c1b1b;
+  --color-inverse-primary: #dcc0bd;
+
+  /* === Spacing === */
+  --spacing-unit: 8px;
+  --spacing-margin-desktop: 64px;
+  --spacing-container-max: 1440px;
+  --spacing-margin-mobile: 20px;
+  --spacing-gutter: 24px;
+  --spacing-section-gap: 120px;
+
+  /* === Font Family === */
+  --font-brand-script: 'Great Vibes', 'Alex Brush', 'Pinyon Script', cursive;
+  --font-headline-md: 'Playfair Display', serif;
+  --font-body-md: 'DM Sans', sans-serif;
+  --font-headline-lg: 'Playfair Display', serif;
+  --font-display-lg: 'Playfair Display', serif;
+  --font-body-lg: 'DM Sans', sans-serif;
+  --font-headline-lg-mobile: 'Playfair Display', serif;
+  --font-label-sm: 'DM Sans', sans-serif;
+
+  /* === Font Size === */
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 500;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+
+  --text-headline-lg: 40px;
+  --text-headline-lg--line-height: 48px;
+  --text-headline-lg--font-weight: 400;
+
+  --text-display-lg: 64px;
+  --text-display-lg--line-height: 72px;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 400;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 40px;
+  --text-headline-lg-mobile--font-weight: 400;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 16px;
+  --text-label-sm--letter-spacing: 0.1em;
+  --text-label-sm--font-weight: 600;
+}
+
+/* === Base Styles === */
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-md);
+  overflow-x: hidden;
+}
+
+/* === Material Symbols === */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* === Custom Utilities === */
+.font-brand-script {
+  font-family: 'Great Vibes', 'Alex Brush', 'Pinyon Script', cursive;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.glass-nav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.editorial-shadow {
+  box-shadow: 0 10px 40px -10px rgba(111, 89, 87, 0.08);
+}
+
+.transition-soft {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f6f3f2;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d2c3c1;
+  border-radius: 10px;
+}
