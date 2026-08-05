@@ -37,7 +37,7 @@ function App() {
   return (
     <UserProvider>
       <CartProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Suspense fallback={<PageLoader />}>
             <Routes>
               {/* Store Routes */}
