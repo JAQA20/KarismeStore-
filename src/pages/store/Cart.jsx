@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import { useUser } from "../../context/UserContext";
 import { products } from "../../data/products";
 
 const Cart = () => {
@@ -17,22 +18,35 @@ const Cart = () => {
     applyCoupon,
   } = useCart();
 
+  const { userInfo, getFormattedShippingAddress } = useUser();
+
   const [promoCode, setPromoCode] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("sinpe");
 
-  // Payment form state
+  // Payment form state with Profile pre-fill
   const [paymentDetails, setPaymentDetails] = useState({
     sinpeRef: "",
     cardNumber: "",
     cardExpiry: "",
     cardCvc: "",
-    cardName: "",
-    deliveryAddress: "",
-    phone: "",
+    cardName: userInfo?.fullName || "",
+    deliveryAddress: getFormattedShippingAddress ? getFormattedShippingAddress() : "",
+    phone: userInfo?.phone || "",
   });
+
+  // Sync profile values when modal opens
+  const handleOpenCheckout = () => {
+    setPaymentDetails((prev) => ({
+      ...prev,
+      cardName: prev.cardName || userInfo?.fullName || "",
+      deliveryAddress: getFormattedShippingAddress(),
+      phone: userInfo?.phone || "",
+    }));
+    setIsCheckoutModalOpen(true);
+  };
 
   const triggerToast = (msg) => {
     setToastMessage(msg);
@@ -74,7 +88,7 @@ const Cart = () => {
   const recommendedProducts = products.slice(0, 4);
 
   return (
-    <main className="max-w-container-max mx-auto px-margin-desktop py-12 md:py-16">
+    <main className="max-w-container-max mx-auto px-4 sm:px-8 md:px-margin-desktop py-8 md:py-16">
       {/* Toast Feedback */}
       {toastMessage && (
         <div className="fixed top-6 right-6 bg-on-surface text-surface px-6 py-3 rounded-xl shadow-2xl z-50 animate-bounce font-label-sm text-sm">
@@ -83,9 +97,9 @@ const Cart = () => {
       )}
 
       {/* Page Title */}
-      <header className="mb-12 border-b border-outline-variant/20 pb-8">
-        <h1 className="font-headline-lg text-headline-lg mb-2">Tu Bolsa</h1>
-        <p className="font-body-md text-on-surface-variant">
+      <header className="mb-8 md:mb-12 border-b border-outline-variant/20 pb-6 md:pb-8">
+        <h1 className="font-headline-lg text-2xl md:text-headline-lg mb-2">Tu Bolsa</h1>
+        <p className="font-body-md text-sm md:text-base text-on-surface-variant">
           Revisa tus artículos antes de proceder al pago seguro.
         </p>
       </header>
@@ -94,13 +108,13 @@ const Cart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
           {/* Product List */}
           <section className="lg:col-span-8">
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6 md:gap-8">
               {cartItems.map((item, index) => (
                 <React.Fragment key={item.id}>
-                  <div className="flex gap-6 group">
+                  <div className="flex gap-3 sm:gap-6 group items-start sm:items-stretch">
                     <Link
                       to={`/product/${item.productId}`}
-                      className="w-32 h-44 md:w-40 md:h-56 overflow-hidden bg-surface-container flex-shrink-0 rounded-lg border border-outline-variant/20"
+                      className="w-24 h-32 sm:w-36 sm:h-48 overflow-hidden bg-surface-container flex-shrink-0 rounded-lg border border-outline-variant/20"
                     >
                       <img
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -110,43 +124,43 @@ const Cart = () => {
                         decoding="async"
                       />
                     </Link>
-                    <div className="flex flex-col justify-between py-2 flex-grow">
+                    <div className="flex flex-col justify-between py-1 sm:py-2 flex-grow min-w-0">
                       <div>
-                        <div className="flex justify-between items-start gap-4">
+                        <div className="flex justify-between items-start gap-2">
                           <Link
                             to={`/product/${item.productId}`}
-                            className="hover:text-primary transition-colors"
+                            className="hover:text-primary transition-colors min-w-0"
                           >
-                            <h3 className="font-headline-md text-headline-md">
+                            <h3 className="font-headline-md text-sm sm:text-base md:text-headline-md font-bold truncate">
                               {item.name}
                             </h3>
                           </Link>
-                          <p className="font-body-lg text-body-lg font-bold text-primary">
+                          <p className="font-body-lg text-sm sm:text-base md:text-body-lg font-bold text-primary shrink-0">
                             {formatColones(item.price * item.quantity)}
                           </p>
                         </div>
-                        <p className="font-label-sm text-label-sm text-on-surface-variant mt-1 uppercase tracking-wider">
+                        <p className="font-label-sm text-[11px] sm:text-xs text-on-surface-variant mt-1 uppercase tracking-wider">
                           Color: {item.color}
                         </p>
-                        <p className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+                        <p className="font-label-sm text-[11px] sm:text-xs text-on-surface-variant uppercase tracking-wider">
                           Talla: {item.size}
                         </p>
-                        <p className="font-label-sm text-xs text-on-surface-variant/60 mt-1 font-mono">
+                        <p className="font-label-sm text-[10px] sm:text-xs text-on-surface-variant/60 mt-0.5 font-mono">
                           Precio unitario: {formatColones(item.price)}
                         </p>
                       </div>
-                      <div className="flex justify-between items-center mt-4">
-                        <div className="flex items-center border border-outline-variant rounded-full px-3 py-1 bg-surface-bright">
+                      <div className="flex flex-wrap sm:flex-nowrap justify-between items-center gap-2 mt-3">
+                        <div className="flex items-center border border-outline-variant rounded-full px-2.5 py-0.5 bg-surface-bright">
                           <button
                             onClick={() => updateQuantity(item.id, -1)}
                             className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
                             title="Disminuir"
                           >
-                            <span className="material-symbols-outlined text-sm">
+                            <span className="material-symbols-outlined text-xs sm:text-sm">
                               remove
                             </span>
                           </button>
-                          <span className="font-body-md text-body-md px-4 font-bold">
+                          <span className="font-body-md text-xs sm:text-sm px-3 font-bold">
                             {item.quantity}
                           </span>
                           <button
@@ -154,16 +168,16 @@ const Cart = () => {
                             className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
                             title="Aumentar"
                           >
-                            <span className="material-symbols-outlined text-sm">
+                            <span className="material-symbols-outlined text-xs sm:text-sm">
                               add
                             </span>
                           </button>
                         </div>
                         <button
                           onClick={() => handleRemove(item.id, item.name)}
-                          className="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-error transition-colors flex items-center gap-1 cursor-pointer"
+                          className="text-on-surface-variant font-label-sm text-xs uppercase hover:text-error transition-colors flex items-center gap-1 cursor-pointer"
                         >
-                          <span className="material-symbols-outlined text-lg">
+                          <span className="material-symbols-outlined text-base">
                             delete
                           </span>
                           Quitar
@@ -220,7 +234,7 @@ const Cart = () => {
               </div>
 
               <button
-                onClick={() => setIsCheckoutModalOpen(true)}
+                onClick={handleOpenCheckout}
                 className="w-full bg-on-surface text-on-primary py-4 font-label-sm text-label-sm uppercase tracking-widest hover:bg-primary transition-all duration-500 mb-6 cursor-pointer rounded-xl"
               >
                 Proceder al Pago
@@ -532,13 +546,25 @@ const Cart = () => {
               {/* Shipping Address Inputs */}
               <div className="space-y-3 pt-2">
                 <div>
-                  <label className="font-label-sm text-[11px] uppercase text-on-surface-variant block mb-1 font-bold">
-                    Dirección Exacta de Envío (Costa Rica)
-                  </label>
-                  <input
-                    type="text"
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="font-label-sm text-[11px] uppercase text-on-surface-variant font-bold flex items-center gap-1">
+                      <span className="material-symbols-outlined text-sm text-secondary">
+                        location_on
+                      </span>
+                      Dirección de Envío (Obtenida de tu Perfil)
+                    </label>
+                    <Link
+                      to="/profile"
+                      className="text-[10px] text-secondary hover:underline font-bold"
+                      title="Editar dirección guardada en el perfil"
+                    >
+                      Editar en Perfil
+                    </Link>
+                  </div>
+                  <textarea
+                    rows={2}
                     required
-                    placeholder="Ej. San José, Escazú, 200m Norte del Parque"
+                    placeholder="Provincia, Cantón, Distrito, Dirección exacta..."
                     value={paymentDetails.deliveryAddress}
                     onChange={(e) =>
                       setPaymentDetails({
@@ -546,8 +572,8 @@ const Cart = () => {
                         deliveryAddress: e.target.value,
                       })
                     }
-                    className="w-full bg-surface-container-low px-4 py-2.5 rounded-xl border border-outline-variant/50 focus:border-primary outline-none text-sm"
-                  />
+                    className="w-full bg-surface-container-low px-4 py-2.5 rounded-xl border border-outline-variant/50 focus:border-primary outline-none text-sm leading-relaxed"
+                  ></textarea>
                 </div>
                 <div>
                   <label className="font-label-sm text-[11px] uppercase text-on-surface-variant block mb-1 font-bold">

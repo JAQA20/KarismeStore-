@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer';
+import { useUser } from '../../context/UserContext';
 
 const provinciasCostaRica = [
   'San José',
@@ -12,34 +13,27 @@ const provinciasCostaRica = [
   'Limón',
 ];
 
-const initialPaymentMethods = [
-  {
-    id: '1',
-    type: 'card',
-    brand: 'Visa',
-    last4: '4242',
-    expiry: '08/28',
-    holder: 'Sofia Loren Castellanos',
-    isDefault: true,
-  },
-  {
-    id: '2',
-    type: 'sinpe',
-    phone: '+506 8888-9999',
-    holder: 'Sofia Loren Castellanos',
-    isDefault: false,
-  },
-];
-
 const Profile = () => {
   const navigate = useNavigate();
+  const {
+    userInfo,
+    shippingAddress,
+    paymentMethods,
+    updateUserInfo,
+    updateShippingAddress,
+    setPaymentMethods,
+  } = useUser();
+
   const [activeTab, setActiveTab] = useState('account');
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [isEditingShipping, setIsEditingShipping] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  // Payment methods state
-  const [paymentMethods, setPaymentMethods] = useState(initialPaymentMethods);
+  // Local form states for editing
+  const [localUserInfo, setLocalUserInfo] = useState(userInfo);
+  const [localShipping, setLocalShipping] = useState(shippingAddress);
+
+  // Payment modal state
   const [isAddPaymentModalOpen, setIsAddPaymentModalOpen] = useState(false);
   const [newPaymentType, setNewPaymentType] = useState('card');
   const [newCardData, setNewCardData] = useState({
@@ -47,21 +41,6 @@ const Profile = () => {
     cardHolder: '',
     expiry: '',
     sinpePhone: '',
-  });
-
-  const [userInfo, setUserInfo] = useState({
-    fullName: 'Sofia Loren Castellanos',
-    email: 'sofia.loren@lifestyle.com',
-    phone: '+506 8888 9999',
-    password: '••••••••••••',
-  });
-
-  const [shippingAddress, setShippingAddress] = useState({
-    provincia: 'San José',
-    canton: 'Escazú',
-    distrito: 'Escazú Centro',
-    direccionExacta: 'De la iglesia parroquial, 200m Norte y 50m Este, casa #45 color beige.',
-    indicacionesAdicionales: 'Portón negro automático. Si no responden, llamar previamente al teléfono de contacto.',
   });
 
   const triggerToast = (msg) => {
@@ -79,12 +58,14 @@ const Profile = () => {
 
   const handleSaveInfo = (e) => {
     e.preventDefault();
+    updateUserInfo(localUserInfo);
     setIsEditingInfo(false);
     triggerToast('Información personal actualizada con éxito.');
   };
 
   const handleSaveShipping = (e) => {
     e.preventDefault();
+    updateShippingAddress(localShipping);
     setIsEditingShipping(false);
     triggerToast('Información de envío guardada con éxito.');
   };
@@ -272,8 +253,8 @@ const Profile = () => {
                             </label>
                             <input
                               type="text"
-                              value={userInfo.fullName}
-                              onChange={(e) => setUserInfo({ ...userInfo, fullName: e.target.value })}
+                              value={localUserInfo.fullName}
+                              onChange={(e) => setLocalUserInfo({ ...localUserInfo, fullName: e.target.value })}
                               className="w-full bg-surface-bright border border-outline-variant rounded-xl px-4 py-3 font-body-lg text-on-surface outline-none focus:border-primary"
                             />
                           </div>
@@ -283,8 +264,8 @@ const Profile = () => {
                             </label>
                             <input
                               type="email"
-                              value={userInfo.email}
-                              onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+                              value={localUserInfo.email}
+                              onChange={(e) => setLocalUserInfo({ ...localUserInfo, email: e.target.value })}
                               className="w-full bg-surface-bright border border-outline-variant rounded-xl px-4 py-3 font-body-lg text-on-surface outline-none focus:border-primary"
                             />
                           </div>
@@ -294,8 +275,8 @@ const Profile = () => {
                             </label>
                             <input
                               type="text"
-                              value={userInfo.phone}
-                              onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })}
+                              value={localUserInfo.phone}
+                              onChange={(e) => setLocalUserInfo({ ...localUserInfo, phone: e.target.value })}
                               className="w-full bg-surface-bright border border-outline-variant rounded-xl px-4 py-3 font-body-lg text-on-surface outline-none focus:border-primary font-mono"
                             />
                           </div>
@@ -363,7 +344,10 @@ const Profile = () => {
                       </p>
                     </div>
                     <button
-                      onClick={() => setIsEditingShipping(!isEditingShipping)}
+                      onClick={() => {
+                        setLocalShipping(shippingAddress);
+                        setIsEditingShipping(!isEditingShipping);
+                      }}
                       className="px-6 py-2 border border-secondary text-secondary hover:bg-secondary hover:text-on-secondary transition-all duration-500 font-label-sm uppercase tracking-widest text-xs rounded-xl cursor-pointer"
                     >
                       {isEditingShipping ? 'Cancelar' : 'Editar Dirección'}
@@ -379,9 +363,9 @@ const Profile = () => {
                             Provincia
                           </label>
                           <select
-                            value={shippingAddress.provincia}
+                            value={localShipping.provincia}
                             onChange={(e) =>
-                              setShippingAddress({ ...shippingAddress, provincia: e.target.value })
+                              setLocalShipping({ ...localShipping, provincia: e.target.value })
                             }
                             className="w-full bg-surface-bright border border-outline-variant rounded-xl px-4 py-3 font-body-lg text-on-surface outline-none focus:border-primary cursor-pointer"
                           >
@@ -402,9 +386,9 @@ const Profile = () => {
                             type="text"
                             required
                             placeholder="Ej. Escazú, Montes de Oca"
-                            value={shippingAddress.canton}
+                            value={localShipping.canton}
                             onChange={(e) =>
-                              setShippingAddress({ ...shippingAddress, canton: e.target.value })
+                              setLocalShipping({ ...localShipping, canton: e.target.value })
                             }
                             className="w-full bg-surface-bright border border-outline-variant rounded-xl px-4 py-3 font-body-lg text-on-surface outline-none focus:border-primary"
                           />
@@ -419,9 +403,9 @@ const Profile = () => {
                             type="text"
                             required
                             placeholder="Ej. Escazú Centro, San Pedro"
-                            value={shippingAddress.distrito}
+                            value={localShipping.distrito}
                             onChange={(e) =>
-                              setShippingAddress({ ...shippingAddress, distrito: e.target.value })
+                              setLocalShipping({ ...localShipping, distrito: e.target.value })
                             }
                             className="w-full bg-surface-bright border border-outline-variant rounded-xl px-4 py-3 font-body-lg text-on-surface outline-none focus:border-primary"
                           />
@@ -437,10 +421,10 @@ const Profile = () => {
                           rows={2}
                           required
                           placeholder="Calle, número de casa, color, puntos de referencia conocidos..."
-                          value={shippingAddress.direccionExacta}
+                          value={localShipping.direccionExacta}
                           onChange={(e) =>
-                            setShippingAddress({
-                              ...shippingAddress,
+                            setLocalShipping({
+                              ...localShipping,
                               direccionExacta: e.target.value,
                             })
                           }
@@ -456,10 +440,10 @@ const Profile = () => {
                         <textarea
                           rows={2}
                           placeholder="Ej. Entregar en recepción del edificio, llamar 10 min antes, timbrar en portón negro..."
-                          value={shippingAddress.indicacionesAdicionales}
+                          value={localShipping.indicacionesAdicionales}
                           onChange={(e) =>
-                            setShippingAddress({
-                              ...shippingAddress,
+                            setLocalShipping({
+                              ...localShipping,
                               indicacionesAdicionales: e.target.value,
                             })
                           }

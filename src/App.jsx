@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
+import { UserProvider } from './context/UserContext';
 
 // Layouts
 import StoreLayout from './layouts/StoreLayout';
@@ -34,39 +35,41 @@ const PageLoader = () => (
 
 function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* Store Routes */}
-            <Route path="/" element={<StoreLayout />}>
-              <Route index element={<Home />} />
-              <Route path="catalog" element={<Catalog />} />
-              <Route path="catalog-men" element={<CatalogMen />} />
-              <Route path="catalog-kids" element={<CatalogKids />} />
-              <Route path="product/:id" element={<ProductDetail />} />
-              <Route path="cart" element={<Cart />} />
-              <Route path="profile" element={<Profile />} />
-            </Route>
+    <UserProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Store Routes */}
+              <Route path="/" element={<StoreLayout />}>
+                <Route index element={<Home />} />
+                <Route path="catalog" element={<Catalog />} />
+                <Route path="catalog-men" element={<CatalogMen />} />
+                <Route path="catalog-kids" element={<CatalogKids />} />
+                <Route path="product/:id" element={<ProductDetail />} />
+                <Route path="cart" element={<Cart />} />
+                <Route path="profile" element={<Profile />} />
+              </Route>
 
-            {/* Auth Routes (Standalone Canvas) */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+              {/* Auth Routes (Standalone Canvas) */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
 
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="inventory" element={<Inventory />} />
-              <Route path="cms" element={<Cms />} />
-            </Route>
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="inventory" element={<Inventory />} />
+                <Route path="cms" element={<Cms />} />
+              </Route>
 
-            {/* Fallback route */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </CartProvider>
+              {/* Fallback route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </CartProvider>
+    </UserProvider>
   );
 }
 
