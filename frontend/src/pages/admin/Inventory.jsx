@@ -67,6 +67,8 @@ const Inventory = () => {
   useEffect(() => {
     try {
       localStorage.setItem('karisme_admin_inventory', JSON.stringify(products));
+      window.dispatchEvent(new Event('storage'));
+      window.dispatchEvent(new CustomEvent('inventoryUpdated'));
     } catch {
       // fallback
     }

@@ -1,27 +1,27 @@
-import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { CartProvider } from './context/CartContext';
-import { UserProvider } from './context/UserContext';
+import React, { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
+import { UserProvider } from "./context/UserContext";
 
 // Layouts
-import StoreLayout from './layouts/StoreLayout';
-import AdminLayout from './layouts/AdminLayout';
+import StoreLayout from "./layouts/StoreLayout";
+import AdminLayout from "./layouts/AdminLayout";
 
 // Lazy-loaded Pages for Route Code Splitting
-const Home = lazy(() => import('./pages/store/Home'));
-const Catalog = lazy(() => import('./pages/store/Catalog'));
-const CatalogMen = lazy(() => import('./pages/store/CatalogMen'));
-const CatalogKids = lazy(() => import('./pages/store/CatalogKids'));
-const ProductDetail = lazy(() => import('./pages/store/ProductDetail'));
-const Cart = lazy(() => import('./pages/store/Cart'));
-const Login = lazy(() => import('./pages/store/Login'));
-const SignUp = lazy(() => import('./pages/store/SignUp'));
-const Profile = lazy(() => import('./pages/store/Profile'));
-
-const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
-const Orders = lazy(() => import('./pages/admin/Orders'));
-const Inventory = lazy(() => import('./pages/admin/Inventory'));
-const Cms = lazy(() => import('./pages/admin/Cms'));
+const Home = lazy(() => import("./pages/store/Home"));
+const Catalog = lazy(() => import("./pages/store/Catalog"));
+const CatalogMen = lazy(() => import("./pages/store/CatalogMen"));
+const CatalogKids = lazy(() => import("./pages/store/CatalogKids"));
+const ProductDetail = lazy(() => import("./pages/store/ProductDetail"));
+const Cart = lazy(() => import("./pages/store/Cart"));
+const Login = lazy(() => import("./pages/store/Login"));
+const SignUp = lazy(() => import("./pages/store/SignUp"));
+const Profile = lazy(() => import("./pages/store/Profile"));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const Orders = lazy(() => import("./pages/admin/Orders"));
+const Inventory = lazy(() => import("./pages/admin/Inventory"));
+const InventoryCopy = lazy(() => import("./pages/admin/Inventory-copy"));
+const Cms = lazy(() => import("./pages/admin/Cms"));
 
 // Loading Fallback Spinner Component
 const PageLoader = () => (
@@ -44,6 +44,8 @@ function App() {
               <Route path="/" element={<StoreLayout />}>
                 <Route index element={<Home />} />
                 <Route path="catalog" element={<Catalog />} />
+                <Route path="catalog-woman" element={<Catalog />} />
+                <Route path="catalog-women" element={<Catalog />} />
                 <Route path="catalog-men" element={<CatalogMen />} />
                 <Route path="catalog-kids" element={<CatalogKids />} />
                 <Route path="product/:id" element={<ProductDetail />} />
@@ -60,6 +62,8 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="inventory" element={<Inventory />} />
+
+                <Route path="inventory-copy" element={<InventoryCopy />} />
                 <Route path="cms" element={<Cms />} />
               </Route>
 

@@ -111,6 +111,54 @@ body {
   overflow-x: hidden;
 }
 
+/* === Dark Admin Mode Overrides === */
+.dark-admin {
+  color-scheme: dark;
+  --color-background: #0f0f11;
+  --color-surface: #17171a;
+  --color-surface-bright: #1f1f24;
+  --color-surface-container: #1b1b1e;
+  --color-surface-container-low: #141417;
+  --color-surface-container-lowest: #0c0c0e;
+  --color-surface-container-high: #26262b;
+  --color-surface-container-highest: #303036;
+  --color-surface-variant: #28282d;
+  --color-on-surface: #f4f4f6;
+  --color-on-surface-variant: #a1a1aa;
+  --color-outline: #52525b;
+  --color-outline-variant: #3f3f46;
+
+  --color-primary: #e895ab;
+  --color-on-primary: #18181b;
+  --color-primary-container: #472630;
+  --color-on-primary-container: #fce4ed;
+
+  --color-secondary: #f09cb7;
+  --color-secondary-container: #3d202b;
+  --color-on-secondary-container: #fce4ed;
+
+  --color-brand-rose: #2d1e24;
+  --color-brand-pink: #e895ab;
+}
+
+.dark-admin table {
+  color: #f4f4f6;
+}
+
+.dark-admin input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.dark-admin select,
+.dark-admin textarea {
+  background-color: var(--color-surface-bright);
+  color: var(--color-on-surface);
+  border-color: var(--color-outline-variant);
+  color-scheme: dark;
+}
+
+.dark-admin option {
+  background-color: #1f1f24;
+  color: #f4f4f6;
+}
+
 /* === Material Symbols === */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined', sans-serif;

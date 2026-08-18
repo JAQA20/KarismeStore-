@@ -54,7 +54,7 @@ const Footer = () => {
           </h5>
           <ul className="space-y-3 font-body-md text-sm text-on-surface-variant">
             <li>
-              <Link to="/catalog" className="hover:text-primary transition-all">
+              <Link to="/catalog-woman" className="hover:text-primary transition-all">
                 Línea Mujer
               </Link>
             </li>

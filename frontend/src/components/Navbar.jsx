@@ -47,10 +47,9 @@ const Navbar = () => {
         {/* Navigation Links - Fluid Font Sizing with Viewport Percentages */}
         <div className="hidden md:flex gap-[2vw] items-center">
           <Link
-            to="/catalog?cat=mujer"
+            to="/catalog-woman"
             className={`font-label-sm text-[clamp(0.75rem,0.95vw,1.25rem)] uppercase tracking-widest transition-colors duration-300 pb-1 ${
-              location.pathname === "/catalog" &&
-              (!location.search || location.search.includes("mujer"))
+              location.pathname === "/catalog-woman" || location.pathname === "/catalog" || location.pathname === "/catalog-women"
                 ? "text-primary font-bold border-b-2 border-primary"
                 : "text-on-surface-variant hover:text-primary"
             }`}
@@ -160,7 +159,7 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-surface-bright border-b border-outline-variant/30 px-6 py-6 flex flex-col gap-4 animate-fade-in">
           <Link
-            to="/catalog"
+            to="/catalog-woman"
             className="font-label-sm text-base uppercase tracking-wider py-2 border-b border-outline-variant/20 text-on-surface hover:text-primary"
           >
             Mujer
